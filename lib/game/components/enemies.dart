@@ -16,7 +16,7 @@ class EnemyPlane extends SpriteComponent
       images: gameRef.images,
     );
 
-    size = Vector2(80.0, 60.0); // Set appropriate size
+    size = Vector2(100.0, 80.0); // Set appropriate size
     position = Vector2(
       gameRef.size.x,
       gameRef.size.y * 0.2 + (gameRef.size.y * 0.6) * gameRef.random.nextDouble(),
