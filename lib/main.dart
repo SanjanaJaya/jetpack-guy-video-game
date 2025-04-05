@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flame/game.dart'; // Add this import for GameWidget
 import 'package:jetpack_guy_video_game/game/jet_pack_game.dart';
 
 void main() {

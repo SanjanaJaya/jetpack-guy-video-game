@@ -30,10 +30,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  cupertino_icons: ^1.0.8
-  flame: ^1.10.0
+  flame: ^1.27.0
   flame_audio: ^2.11.3
-  flutter_svg: ^2.0.7
 
 dev_dependencies:
   flutter_test:
@@ -51,6 +49,12 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
+  assets:
+    - assets/images/characters/jetpack_guy.png
+    - assets/images/enemies/enemy_plane1.png
+    - assets/images/backgrounds/parallax.png
+    - assets/images/projectiles/enemy_bullet.png
+    - assets/images/projectiles/player_bullet.png
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
