@@ -1,5 +1,5 @@
 import 'package:flame/components.dart';
-import 'package:jet_pack_guy/game/jet_pack_game.dart';
+import 'package:jetpack_guy_video_game/game/jet_pack_game.dart';
 
 class PlayerBullet extends SpriteComponent with HasGameRef<JetPackGame> {
   static const double speed = 400;

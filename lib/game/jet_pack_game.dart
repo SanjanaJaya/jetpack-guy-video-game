@@ -1,7 +1,7 @@
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
-import 'package:jet_pack_guy/game/components/player.dart';
-import 'package:jet_pack_guy/game/components/enemies.dart';
+import 'package:jetpack_guy_video_game/game/components/player.dart';
+import 'package:jetpack_guy_video_game/game/components/enemies.dart';
 
 class JetPackGame extends FlameGame with HasCollisionDetection, TapDetector {
   late JetPackGuy player;

@@ -1,6 +1,6 @@
 import 'package:flame/components.dart';
 import 'package:flame/sprite.dart';
-import 'package:jet_pack_guy/game/jet_pack_game.dart';
+import 'package:jetpack_guy_video_game/game/jet_pack_game.dart';
 
 class JetPackGuy extends SpriteAnimationComponent
     with HasGameRef<JetPackGame>, CollisionCallbacks {

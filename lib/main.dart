@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jet_pack_guy/game/jet_pack_game.dart';
+import 'package:jetpack_guy_video_game/game/jet_pack_game.dart';
 
 void main() {
   runApp(const GameApp());
