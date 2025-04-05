@@ -1,6 +1,7 @@
 import 'package:flame/components.dart';
 import 'package:flame/sprite.dart';
 import 'package:flame/collisions.dart'; // Added for hitboxes
+import 'package:jetpack_guy_video_game/game/components/bullets.dart';
 import 'package:jetpack_guy_video_game/game/jet_pack_game.dart';
 
 class JetPackGuy extends SpriteAnimationComponent
