@@ -19,7 +19,7 @@ class Player extends SpriteAnimationComponent
   static const double frameTime = 0.1;
 
   final Vector2 velocity = Vector2.zero();
-  late SpriteAnimation _flightAnimation; // Private animation reference
+  late SpriteAnimation _flightAnimation;
 
   @override
   Future<void> onLoad() async {
@@ -41,9 +41,7 @@ class Player extends SpriteAnimationComponent
         to: frameCount,
       )..loop = true;
 
-      // Assign to parent class's animation
       animation = _flightAnimation;
-
       size = Vector2(64.0, 64.0);
       anchor = Anchor.center;
       position = Vector2(100, gameRef.size.y / 2);
@@ -60,15 +58,11 @@ class Player extends SpriteAnimationComponent
   }
 
   void startThrust() {
-    if (animation != null) {
-      animation!.stepTime = frameTime * 0.7;
-    }
+    animation?.stepTime = frameTime * 0.7;
   }
 
   void stopThrust() {
-    if (animation != null) {
-      animation!.stepTime = frameTime * 1.5;
-    }
+    animation?.stepTime = frameTime * 1.5;
   }
 
   void shoot() {
@@ -85,6 +79,9 @@ class Player extends SpriteAnimationComponent
 
     velocity.y = velocity.y.clamp(-maxSpeed, maxSpeed);
     position += velocity * dt;
-    position.y = position.y.clamp(0.0, gameRef.size.y - height);
+    position.y = position.y.clamp(
+        size.y / 2,
+        gameRef.size.y - size.y / 2
+    );
   }
 }

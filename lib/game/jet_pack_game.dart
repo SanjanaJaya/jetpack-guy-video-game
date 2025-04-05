@@ -2,9 +2,10 @@ import 'dart:math';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flame/components.dart';
-import 'package:flame/parallax.dart';
 import 'package:flutter/material.dart';
 import 'package:jetpack_guy_video_game/game/components/player.dart';
+import 'package:jetpack_guy_video_game/game/components/background.dart';
+import 'package:jetpack_guy_video_game/game/components/enemies.dart';
 
 class JetPackGame extends FlameGame with HasCollisionDetection, TapDetector {
   late Player player;
@@ -46,17 +47,17 @@ class JetPackGame extends FlameGame with HasCollisionDetection, TapDetector {
   }
 
   @override
-  void onTapDown(TapDownInfo info) {
+  void onTapDown(int pointerId, TapDownInfo info) {
     isTouching = true;
   }
 
   @override
-  void onTapUp(TapUpInfo info) {
+  void onTapUp(int pointerId, TapUpInfo info) {
     isTouching = false;
   }
 
   @override
-  void onTapCancel() {
+  void onTapCancel(int pointerId) {
     isTouching = false;
   }
 
