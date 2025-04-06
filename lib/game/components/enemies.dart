@@ -4,31 +4,36 @@ import 'package:flame/collisions.dart';
 import 'package:jetpack_guy_video_game/game/jet_pack_game.dart';
 
 class EnemySpawner extends Component with HasGameRef<JetPackGame> {
+  double _spawnTimer = 0.0;
+  double _spawnInterval = 2.5;
+
   @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-    add(TimerComponent(
-      period: 3,
-      repeat: true,
-      onTick: () => gameRef.add(EnemyPlane()),
-    ));
+  void update(double dt) {
+    super.update(dt);
+    _spawnTimer += dt;
+
+    if (_spawnTimer >= _spawnInterval) {
+      _spawnTimer = 0.0;
+      _spawnInterval = 2.0 + gameRef.random.nextDouble() * 3.0;
+      gameRef.add(EnemyPlane());
+    }
   }
 }
 
 class EnemyPlane extends SpriteComponent
     with HasGameRef<JetPackGame>, CollisionCallbacks {
-  static const double speed = 150;
+  static const double speed = 200;
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
     sprite = await Sprite.load('enemies/enemy_plane.png');
-    size = Vector2(80, 60);
+    size = Vector2(100, 75);
     position = Vector2(
       gameRef.size.x,
       gameRef.random.nextDouble() * gameRef.size.y * 0.8,
     );
-    priority = 2; // Higher than background but lower than player (default 0)
+    priority = 2;
     add(RectangleHitbox());
   }
 
