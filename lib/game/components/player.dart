@@ -7,12 +7,11 @@ import 'package:jetpack_guy_video_game/game/components/bullets.dart';
 
 class Player extends SpriteAnimationComponent
     with HasGameRef<JetPackGame>, CollisionCallbacks {
-  // Physics
   static const double thrustPower = 500.0;
   static const double maxSpeed = 300.0;
   static const double gravity = 800.0;
+  static const double horizontalSpeed = 200.0; // Constant horizontal movement
 
-  // Animation
   static const double frameWidth = 128.0;
   static const double frameHeight = 128.0;
   static const int frameCount = 4;
@@ -27,7 +26,7 @@ class Player extends SpriteAnimationComponent
 
     try {
       final spriteImage = await gameRef.images.load(
-        'assets/images/characters/jetpack_guy.png',
+        'characters/jetpack_guy.png',
       );
 
       final spriteSheet = SpriteSheet(
@@ -47,9 +46,7 @@ class Player extends SpriteAnimationComponent
       position = Vector2(100, gameRef.size.y / 2);
 
       add(CircleHitbox(radius: 20.0));
-
     } catch (e) {
-      // Fallback
       add(RectangleComponent(
         size: Vector2(64.0, 64.0),
         paint: Paint()..color = const Color(0xFF0000FF),
@@ -73,15 +70,19 @@ class Player extends SpriteAnimationComponent
   void update(double dt) {
     velocity.y += gravity * dt;
 
-    if ((gameRef as JetPackGame).isTouching) {
+    if ((gameRef as JetPackGame).isThrusting) {
       velocity.y -= thrustPower * dt;
     }
 
+    // Constant horizontal movement
+    velocity.x = horizontalSpeed;
+
     velocity.y = velocity.y.clamp(-maxSpeed, maxSpeed);
+    velocity.x = velocity.x.clamp(0, horizontalSpeed); // Ensure no going back
+
     position += velocity * dt;
-    position.y = position.y.clamp(
-        size.y / 2,
-        gameRef.size.y - size.y / 2
-    );
+
+    position.y = position.y.clamp(size.y / 2, gameRef.size.y - size.y / 2);
+    position.x = position.x.clamp(size.x / 2, gameRef.size.x - size.x / 2);
   }
 }

@@ -15,7 +15,8 @@ class EnemySpawner extends Component with HasGameRef<JetPackGame> {
   }
 }
 
-class EnemyPlane extends SpriteComponent with HasGameRef<JetPackGame>, CollisionCallbacks {
+class EnemyPlane extends SpriteComponent
+    with HasGameRef<JetPackGame>, CollisionCallbacks {
   static const double speed = 150;
 
   @override
@@ -27,6 +28,7 @@ class EnemyPlane extends SpriteComponent with HasGameRef<JetPackGame>, Collision
       gameRef.size.x,
       gameRef.random.nextDouble() * gameRef.size.y * 0.8,
     );
+    priority = 2; // Higher than background but lower than player (default 0)
     add(RectangleHitbox());
   }
 

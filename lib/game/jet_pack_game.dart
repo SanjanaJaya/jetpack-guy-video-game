@@ -1,36 +1,48 @@
 import 'dart:math';
 import 'package:flame/game.dart';
-import 'package:flame/input.dart';
 import 'package:flame/components.dart';
+import 'package:flame/events.dart';
+import 'package:flame/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:jetpack_guy_video_game/game/components/player.dart';
 import 'package:jetpack_guy_video_game/game/components/background.dart';
 import 'package:jetpack_guy_video_game/game/components/enemies.dart';
 
-class JetPackGame extends FlameGame with HasCollisionDetection, TapDetector {
+class JetPackGame extends FlameGame with HasCollisionDetection, TapCallbacks {
   late Player player;
   int score = 0;
   double distance = 0;
   final Random random = Random();
-  bool isTouching = false;
+  bool isThrusting = false;
+
+  late final CameraComponent cameraComponent;
+
+  @override
+  Color backgroundColor() => const Color(0xFF000000);
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
 
-    // Add background first
-    add(Background());
+    final world = World();
+    cameraComponent = CameraComponent(
+      world: world,
+      viewport: FixedResolutionViewport(resolution: Vector2(1600, 900)),
+    );
 
-    // Setup camera
-    camera.viewfinder.anchor = Anchor.center;
+    addAll([cameraComponent, world]);
 
-    // Add player
+    // Background should be added first to be at the bottom layer
+    final background = Background();
+    world.add(background);
+
+    cameraComponent.viewfinder.anchor = Anchor.center;
+
     player = Player();
-    add(player);
-    camera.follow(player);
+    world.add(player);
+    cameraComponent.follow(player);
 
-    // Add enemy spawner
-    add(EnemySpawner());
+    world.add(EnemySpawner());
   }
 
   @override
@@ -39,7 +51,7 @@ class JetPackGame extends FlameGame with HasCollisionDetection, TapDetector {
     distance += dt * 50;
     score = distance.toInt();
 
-    if (isTouching) {
+    if (isThrusting) {
       player.startThrust();
     } else {
       player.stopThrust();
@@ -47,22 +59,26 @@ class JetPackGame extends FlameGame with HasCollisionDetection, TapDetector {
   }
 
   @override
-  void onTapDown(int pointerId, TapDownInfo info) {
-    isTouching = true;
+  void onTapDown(TapDownEvent event) {
+    super.onTapDown(event);
+    if (event.localPosition.x > size.x / 2) {
+      isThrusting = true;
+    } else {
+      player.shoot();
+    }
   }
 
   @override
-  void onTapUp(int pointerId, TapUpInfo info) {
-    isTouching = false;
+  void onTapUp(TapUpEvent event) {
+    super.onTapUp(event);
+    if (event.localPosition.x > size.x / 2) {
+      isThrusting = false;
+    }
   }
 
   @override
-  void onTapCancel(int pointerId) {
-    isTouching = false;
-  }
-
-  @override
-  void onTap() {
-    player.shoot();
+  void onTapCancel(TapCancelEvent event) {
+    super.onTapCancel(event);
+    isThrusting = false;
   }
 }
